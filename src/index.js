@@ -6,9 +6,12 @@ import {
   Scene,
   UniversalCamera,
   MeshBuilder,
+  Path3D,
   StandardMaterial,
   DirectionalLight,
   Vector3,
+  Axis,
+  Space,
   Color3,
   SceneLoader,
   DeviceOrientationCamera,
@@ -50,25 +53,25 @@ const light1 = new DirectionalLight(
   scene
 );
 
-var freza;
+var vreteno;
 var zasobnik = [];
 
-SceneLoader.ImportMesh("", "public/", "endmill.glb", scene, function (
+SceneLoader.ImportMesh("", "public/", "vreteno_nr11.obj", scene, function (
   newMeshes
 ) {
   // Pozice, měřítko a rotace
-  newMeshes[0].scaling = new Vector3(0.15, 0.15, 0.175);
+  newMeshes[0].scaling = new Vector3(0.015, 0.015, 0.0175);
   newMeshes[0].rotate(new Vector3(-1, 0, 0), Math.PI / 2);
   newMeshes[0].position.z = -2;
   newMeshes[0].position.x = 1;
-  freza = newMeshes[0];
+  vreteno = newMeshes[0];
 
-  var i = 0;
-  for (i = 0; i < 5; i++) {
-    freza = newMeshes[0].clone("freza" + i, newMeshes[0].parent, false);
-    freza.position.x = i - 1;
-    zasobnik[i] = freza;
-  }
+  //var i = 0;
+  //for (i = 0; i < 1; i++) {
+  //vreteno = newMeshes[0].clone("vreteno" + i, newMeshes[0].parent, false);
+  //vreteno.position.x = i - 10;
+  //zasobnik[i] = vreteno;
+  //}
 });
 
 scene.registerBeforeRender(function () {});
