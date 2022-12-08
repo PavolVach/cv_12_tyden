@@ -19,6 +19,9 @@ import {
   Animation
 } from "@babylonjs/core";
 import "@babylonjs/inspector";
+import { meshUboDeclaration } from "@babylonjs/core/Shaders/ShadersInclude/meshUboDeclaration";
+import { waterPixelShader } from "@babylonjs/materials/water/water.fragment";
+
 
 //canvas je grafické okno, to rozáhneme přes obrazovku
 const canvas = document.getElementById("renderCanvas");
@@ -26,6 +29,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 const engine = new Engine(canvas, true);
+
+
 
 //scéna neměnit
 const scene = new Scene(engine);
@@ -45,6 +50,15 @@ camera.setTarget(new Vector3(0, 1, 0));
 camera.attachControl(canvas, true);
 
 //zde přídáme cyklus for
+var i = 0;
+for (i = 0; i < 3; i++) {
+  var sphere = MeshBuilder.CreateCylinder(
+    "freza",
+    { diameter: 0.00002, height: 3 },
+    scene
+  );
+
+}
 
 //světlo
 const light1 = new DirectionalLight(
@@ -53,19 +67,20 @@ const light1 = new DirectionalLight(
   scene
 );
 
-var vreteno;
+var freza = sphere;
 var zasobnik = [];
 
-SceneLoader.ImportMesh("", "public/", "vreteno_nr11.obj", scene, function (
+SceneLoader.ImportMesh("", "public/", "vretenoo.glb", scene, function (
   newMeshes
 ) {
   // Pozice, měřítko a rotace
-  newMeshes[0].scaling = new Vector3(0.015, 0.015, 0.0175);
+  newMeshes[0].scaling = new Vector3(0.15, 0.15, 0.15);
   newMeshes[0].rotate(new Vector3(-1, 0, 0), Math.PI / 2);
   newMeshes[0].position.z = -2;
   newMeshes[0].position.x = 1;
-  vreteno = newMeshes[0];
+  freza = newMeshes[0];
 
+ 
   //var i = 0;
   //for (i = 0; i < 1; i++) {
   //vreteno = newMeshes[0].clone("vreteno" + i, newMeshes[0].parent, false);
@@ -74,10 +89,15 @@ SceneLoader.ImportMesh("", "public/", "vreteno_nr11.obj", scene, function (
   //}
 });
 
-scene.registerBeforeRender(function () {});
+scene.registerBeforeRender(function () {
+  //pohyb frézy
+    freza.rotate(new Vector3(-1, 0, 0), (freza.rotation.x += 0.001));
+  });
+
 //zde uděláme animaci
 
-// povinné vykreslování
+
+  // povinné vykreslování
 engine.runRenderLoop(function () {
   scene.render();
 });
